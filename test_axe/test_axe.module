@@ -1,0 +1,25 @@
+<?php
+
+  use \Drupal\Core\Form\FormStateInterface;
+  
+  
+  function test_axe_form_alter(&$form, FormStateInterface $form_state, $form_id){
+    if($form_id == "system_site_information_settings"){
+      $form['site_api_key'] = array(
+        '#type'=>"textfield",
+        "#title"=>t("Site API Key"),
+        "#default_value"=>\Drupal::state()->get("siteapikey","No API Key yet"),
+      );
+      if(\Drupal::state()->get("siteapikey") && \Drupal::state()->get("siteapikey") != "No API Key yet"){
+        $form['actions']["submit"]['#value'] = t("Update Configuration");
+      }
+      $form["#submit"][] = 'test_axe_submit_form';
+    }
+  }
+  
+  function test_axe_submit_form($form,FormStateInterface $form_state){
+    $site_api_key = $form_state->getValue('site_api_key');
+    \Drupal::state()->set("siteapikey",$site_api_key);
+    $messenger = \Drupal::messenger();
+    $messenger->addMessage(t("@site_api_key has been set as site API key",array("@site_api_key"=>$site_api_key)),$messenger::TYPE_STATUS);
+  }

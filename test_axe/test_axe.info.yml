@@ -1,0 +1,5 @@
+name: Test Axe
+type: module
+description: Alter site information form and many more.
+core: 8.x
+package: Custom

@@ -1,0 +1,7 @@
+test_axe.get_node:
+  path: '/page_json/{api_key}/{node_id}'
+  defaults:
+    _controller: '\Drupal\test_axe\Controller\FetchNodeDetails::getContent'
+    _title: 'Content JSON Response'
+  requirements:
+    _access: 'TRUE'
